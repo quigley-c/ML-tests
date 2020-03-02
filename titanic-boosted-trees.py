@@ -103,7 +103,7 @@ result = linear_est.evaluate(eval_input_fn)
 clear_output()
 print(pd.Series(result))
 
-# Singe data fits intop memory, use entire dataset per layer. It will be faster.
+# Since data fits intop memory, use entire dataset per layer. It will be faster.
 # Above one batch is defined as the entire dataset.
 n_batches = 1
 est = tf.estimator.BoostedTreesClassifier(feature_columns, n_batches_per_layer=n_batches)
@@ -116,10 +116,8 @@ result = est.evaluate(eval_input_fn)
 clear_output()
 print(pd.Series(result))
 
-# It seems there's something wrong with this block, results in a malloc_consolidate() error
 pred_dicts = list(est.predict(eval_input_fn))
-probs = pd.Series([pred['probabilities'][1] for pred in pred-dicts])
-#
+probs = pd.Series([pred['probabilities'][1] for pred in pred_dicts])
 
 probs.plot(kind='hist', bins=20, title='predicted probabilities')
 plt.show()
